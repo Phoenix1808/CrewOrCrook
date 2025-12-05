@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#C7F5D6">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+
+        <TextView
+            android:id="@+id/tvScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Score: 0"
+            android:visibility="gone"
+            android:textColor="#1A1A1A"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:layout_marginTop="20dp"
+            android:background="#FFFFFF"
+            android:elevation="8dp"
+            android:clipToOutline="true"
+            android:backgroundTint="@android:color/white"
+            android:paddingBottom="25dp"
+            android:paddingTop="25dp"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:id="@+id/tvQuestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sample Question?"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:lineSpacingExtra="8dp" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp">
+
+                <RadioButton
+                    android:id="@+id/option1"
+                    style="@style/TriviaOption" />
+
+                <RadioButton
+                    android:id="@+id/option2"
+                    style="@style/TriviaOption" />
+
+                <RadioButton
+                    android:id="@+id/option3"
+                    style="@style/TriviaOption" />
+
+                <RadioButton
+                    android:id="@+id/option4"
+                    style="@style/TriviaOption" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="NEXT"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:enabled="false"
+            android:background="@drawable/btn_disabled"
+            android:textColor="@android:color/white"
+            android:padding="14dp" />
+
+    </LinearLayout>
+
+</ScrollView>
