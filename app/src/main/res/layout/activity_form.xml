@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FormActivity"
-    android:background="#0B0B0D">
+    android:background="@drawable/register_bg">
+
 
 
     <TextView
@@ -16,11 +17,13 @@
         android:text="Complete Your Profile"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:textSize="22sp"
+        android:textSize="26sp"
+        android:fontFamily="@font/bangers_regular"
+        android:letterSpacing="0.06"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="202dp"
         />
 
     <TextView
@@ -29,7 +32,9 @@
         android:id="@+id/txtSub"
         android:text="Personalize your game"
         android:textSize="14sp"
-        android:textColor="#9E9E9E"
+        android:fontFamily="@font/poppins_lightitalic"
+        android:textColor="#F7E74A"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/texttitle"
         app:layout_constraintEnd_toEndOf="parent"
@@ -120,18 +125,21 @@
         android:layout_marginTop="6dp"
         android:layout_marginHorizontal="32dp"/>
 
-    <Button
-        android:id="@+id/btnContinue"
+    <ImageView
+        android:id="@+id/btnconfirm"
         android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:text="CONTINUE"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:backgroundTint="#3F51B5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="0dp"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:contentDescription = "Form Submission Button"
+        android:scaleType = "fitCenter"
+        android:src="@drawable/confirm"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="40dp"
-        android:layout_marginHorizontal="32dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etGroup"
+        app:layout_constraintWidth_percent="0.85"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="40dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

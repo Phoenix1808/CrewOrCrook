@@ -23,13 +23,14 @@
     <ImageView
         android:id="@+id/imgAstronaut"
         android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_height="166dp"
         android:src="@drawable/man"
         android:scaleType="fitCenter"
         app:layout_constraintTop_toTopOf="@id/imgBlur"
         app:layout_constraintBottom_toBottomOf="@id/imgBlur"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="40dp"
         android:elevation="4dp"/>
 
     <TextView
