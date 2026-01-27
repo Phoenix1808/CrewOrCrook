@@ -20,19 +20,14 @@ class NumSeqActivity : AppCompatActivity() {
     private lateinit var gridLayout: GridLayout
     private lateinit var tvStatus: TextView
     private lateinit var btnRestart: Button
-
     private val cells = mutableListOf<TextView>()
     private val positionToNumber = mutableMapOf<Int, Int>()
-
     private var sequenceCount = 0
     private var nextExpected = 1
-
     private val handler = Handler(Looper.getMainLooper())
-
     private var roundActive = false
     private var roundFailed = false
     private var gridCreated = false
-
     private val minCount = 4
     private val maxCount = 6
     private val displayMillis: Long = 4500L
@@ -53,7 +48,7 @@ class NumSeqActivity : AppCompatActivity() {
         }
     }
 
-    //this function is used to convert dp to px for consistent tile margins
+    //this function helps t convert dp->px for consistent tile margin(New)
     private fun dpToPx(dp: Int): Int =
         TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
@@ -64,8 +59,8 @@ class NumSeqActivity : AppCompatActivity() {
 
     private fun generateGrid() {
 
-        gridLayout.post { //post is used here kyunki gridLayout ki width onCreate() par nhi pata hoti h so post{} runs the code after UI is mesured and laid out.
-            if (gridCreated) return@post // grid is built only once
+        gridLayout.post { //post 
+            if (gridCreated) return@post
             gridCreated = true
 
             gridLayout.removeAllViews()

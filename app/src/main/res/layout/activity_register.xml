@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity"
+    android:background="@drawable/register_bg">
+
+    <ImageView
+        android:id="@+id/imgBlur"
+        android:layout_width="220dp"
+        android:layout_height="120dp"
+        android:src="@drawable/blur"
+        android:scaleType="centerCrop"
+        android:alpha="0.9"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="90dp"/>
+
+    <ImageView
+        android:id="@+id/imgAstronaut"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:src="@drawable/man"
+        android:scaleType="fitCenter"
+        app:layout_constraintTop_toTopOf="@id/imgBlur"
+        app:layout_constraintBottom_toBottomOf="@id/imgBlur"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:elevation="4dp"/>
+
+    <TextView
+        android:id="@+id/txtRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/bangers_regular"
+        android:letterSpacing="0.06"
+        android:text="REGISTER USER"
+        android:textColor="@android:color/white"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgBlur" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/labelUser"
+        android:text="User Name (unique)"
+        android:textSize="12sp"
+        android:textColor="#E4E2D4"
+        app:layout_constraintTop_toBottomOf="@id/txtRegister"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="28dp"
+        android:layout_marginStart="32dp"/>
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:id="@+id/etUserName"
+       android:paddingHorizontal="14dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:background="@drawable/et_bg"
+        app:layout_constraintTop_toBottomOf="@id/labelUser"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="6dp"
+        android:layout_marginHorizontal="32dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/labelZeal"
+        android:text="Zeal ID"
+        android:textSize="12sp"
+        android:textColor="#E4E2D4"
+        app:layout_constraintTop_toBottomOf="@id/etUserName"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="28dp"
+        android:layout_marginStart="32dp"/>
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:id="@+id/etZealID"
+        android:paddingHorizontal="14dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:background="@drawable/et_bg"
+        app:layout_constraintTop_toBottomOf="@id/labelZeal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="6dp"
+        android:layout_marginHorizontal="32dp"
+        />
+
+    <TextView
+        android:id="@+id/labelSec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="68dp"
+        android:text="Section"
+        android:textColor="#E4E2D4"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelZeal" />
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:id="@+id/etSection"
+        android:paddingHorizontal="14dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:background="@drawable/et_bg"
+        app:layout_constraintTop_toBottomOf="@id/labelSec"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="6dp"
+        android:layout_marginHorizontal="32dp" />
+
+    <ImageView
+        android:id="@+id/btnconfirm"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="0dp"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:contentDescription = "Confirm Button"
+        android:scaleType = "fitCenter"
+        android:src="@drawable/confirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etSection"
+        app:layout_constraintWidth_percent="0.85"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="40dp"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

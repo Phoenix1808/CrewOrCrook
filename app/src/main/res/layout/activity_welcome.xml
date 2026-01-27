@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/welcome_bg_hero">
+
+
+    <ImageView
+        android:id="@+id/imgHero"
+        android:layout_width="0dp"
+        android:layout_height="390dp"
+        android:src="@drawable/center_illus"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/txtWelcome"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintDimensionRatio="1:1"
+        android:layout_marginTop="0dp">
+    </ImageView>
+
+    <TextView
+    android:id="@+id/txtWelcome"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="WELCOME"
+    android:textColor="@android:color/white"
+    android:textSize="42sp"
+    android:fontFamily="@font/bangers_regular"
+    android:letterSpacing="0.06"
+    app:layout_constraintTop_toBottomOf="@id/imgHero"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_marginTop="0dp"/>
+
+    <TextView
+    android:id="@+id/txtSubtitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="To the world of Crew or Crook"
+    android:textColor="#F7E74A"
+    android:textSize="14sp"
+        android:layout_marginBottom="102dp"
+    android:fontFamily="@font/poppins_lightitalic"
+    app:layout_constraintTop_toBottomOf="@id/txtWelcome"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <ImageButton
+        android:id="@+id/btnSignup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:contentDescription="Sign Up Button"
+        android:scaleType="fitCenter"
+        android:src="@drawable/signup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtSubtitle"
+        app:layout_constraintWidth_percent="0.85" />
+
+    <ImageButton
+        android:id="@+id/btnLogin"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="0dp"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:contentDescription="Login Button"
+        android:scaleType="fitCenter"
+        android:src="@drawable/login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnSignup"
+        app:layout_constraintWidth_percent="0.85"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="60dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

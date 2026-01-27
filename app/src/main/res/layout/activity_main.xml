@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:padding="24dp"
     android:background="#A8E6CF"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:contentDescription="User Avatar"
+        android:src="@drawable/av1"
+        android:background="@drawable/avatar_circle_bg"
+        android:padding="4dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/imgAvatar"
+        />
 
     <TextView
         android:id="@+id/title"
@@ -20,60 +30,79 @@
         android:textStyle="bold"
         android:textColor="#0D0000"
         android:layout_marginTop="40dp"
-        android:layout_marginBottom="40dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/uploadbtn"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Upload / Download Task"
         android:backgroundTint="#FFFFFF"
         android:textColor="#000000"
         android:padding="12dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="10dp"/>
-
+        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="24dp"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btnMemory"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Memory Game"
         android:backgroundTint="#FFFFFF"
         android:textColor="#000000"
         android:padding="12dp"
-        android:layout_marginBottom="15dp"/>
-
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="24dp"
+        app:layout_constraintTop_toBottomOf="@id/uploadbtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btnSeq"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Number Sequence Game"
         android:backgroundTint="#FFFFFF"
         android:textColor="#000000"
         android:padding="12dp"
-        android:layout_marginBottom="15dp"/>
-
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="24dp"
+        app:layout_constraintTop_toBottomOf="@id/btnMemory"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/ConnectDot"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Connect the Dots Game"
         android:backgroundTint="#FFFFFF"
         android:textColor="#000000"
         android:padding="12dp"
-        android:layout_marginBottom="15dp"/>
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="24dp"
+        app:layout_constraintTop_toBottomOf="@id/btnSeq"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btnTrivia"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Trivia Quiz"
         android:backgroundTint="#FFFFFF"
         android:textColor="#000000"
         android:padding="12dp"
-        android:layout_marginBottom="15dp"/>
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="24dp"
+        app:layout_constraintTop_toBottomOf="@id/ConnectDot"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

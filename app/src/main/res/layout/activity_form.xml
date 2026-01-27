@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FormActivity"
+    android:background="#0B0B0D">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/texttitle"
+        android:text="Complete Your Profile"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="32dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtSub"
+        android:text="Personalize your game"
+        android:textSize="14sp"
+        android:textColor="#9E9E9E"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/texttitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="6dp"/>
+
+    <TextView
+        android:id="@+id/labeltitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Branch"
+        android:textSize="12sp"
+        android:textColor="#E4E2D4"
+        app:layout_constraintTop_toBottomOf="@id/txtSub"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_goneMarginTop="28dp"
+        android:layout_marginStart="32dp"
+        />
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:id="@+id/etBranch"
+        android:hint="Branch"
+        android:background="@drawable/et_bg"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/labeltitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="6dp"
+        android:paddingHorizontal="16dp"
+        android:layout_marginHorizontal="32dp"/>
+
+
+    <TextView
+        android:id="@+id/labelyear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Year"
+        android:textSize="12sp"
+        android:textColor="#E4E2D4"
+        app:layout_constraintTop_toBottomOf="@id/etBranch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_goneMarginTop="28dp"
+        android:layout_marginStart="32dp"
+        />
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:id="@+id/etYear"
+        android:hint="Year(1st / 2nd / 3rd / 4th)"
+        android:background="@drawable/et_bg"
+        android:paddingHorizontal="16dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/labelyear"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="6dp"
+        android:layout_marginHorizontal="32dp"/>
+
+    <TextView
+        android:id="@+id/labelgroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Hostel/Group"
+        android:textSize="12sp"
+        android:textColor="#E4E2D4"
+        app:layout_constraintTop_toBottomOf="@id/etYear"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_goneMarginTop="28dp"
+        android:layout_marginStart="32dp"
+        />
+
+    <EditText
+        android:id="@+id/etGroup"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="Hostel / Group"
+        android:background="@drawable/et_bg"
+        android:paddingHorizontal="16dp"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@id/labelgroup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="6dp"
+        android:layout_marginHorizontal="32dp"/>
+
+    <Button
+        android:id="@+id/btnContinue"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:text="CONTINUE"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:backgroundTint="#3F51B5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="40dp"
+        android:layout_marginHorizontal="32dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

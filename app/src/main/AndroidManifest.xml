@@ -13,6 +13,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UploadingScreen">
         <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AvatarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FormActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".TriviaResultActivity"
             android:exported="false" />
         <activity
@@ -28,9 +43,8 @@
             android:name=".ConnectDotActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".WelcomeActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.UploadingScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

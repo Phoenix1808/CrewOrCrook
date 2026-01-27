@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Base gradient -->
+    <item>
+        <shape>
+            <gradient
+                android:startColor="#0E0A2D"
+                android:endColor="#1B0C4A"
+                android:angle="270"/>
+        </shape>
+    </item>
+
+    <!-- Stars -->
+    <item>
+        <bitmap
+            android:src="@drawable/stars"
+            android:gravity="fill"/>
+    </item>
+
+    <!-- Rope (top-right) -->
+    <item
+        android:top="0dp"
+        android:right="16dp">
+        <bitmap
+            android:src="@drawable/rope_re"
+            android:gravity="top|end"/>
+    </item>
+
+
+</layer-list>

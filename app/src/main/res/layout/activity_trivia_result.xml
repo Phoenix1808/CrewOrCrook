@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
     android:background="#C7F5D6">
 
-
     <LinearLayout
         android:id="@+id/resultCard"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="30dp"
@@ -17,8 +17,10 @@
         android:elevation="12dp"
         android:layout_margin="16dp"
         android:clipToOutline="true"
-        android:layout_centerInParent="true">
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <FrameLayout
             android:layout_width="200dp"
@@ -40,7 +42,6 @@
                 android:indeterminateOnly="false"
                 android:indeterminateDrawable="@null" />
 
-
             <TextView
                 android:id="@+id/tvPercent"
                 android:layout_width="wrap_content"
@@ -48,14 +49,11 @@
                 android:text="0%"
                 android:textSize="28sp"
                 android:layout_gravity="center"
-
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
                 android:gravity="center" />
 
         </FrameLayout>
-
-
 
         <TextView
             android:id="@+id/tvFinalScore"
@@ -66,8 +64,7 @@
             android:textStyle="bold"
             android:textColor="#FFFFFF"
             android:layout_marginTop="20dp"
-            android:gravity="center"/>
-
+            android:gravity="center" />
 
         <Button
             android:id="@+id/btnRestart"
@@ -85,4 +82,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
