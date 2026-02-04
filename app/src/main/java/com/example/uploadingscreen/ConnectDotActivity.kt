@@ -51,7 +51,7 @@ class ConnectDotActivity : AppCompatActivity() {
                 val overlayLoc = IntArray(2).apply { container.getLocationOnScreen(this) }
                 val viewLoc = IntArray(2).apply { v.getLocationOnScreen(this) }
 
-                // Starting coordinates from center of the dot
+               
                 val startX = viewLoc[0] - overlayLoc[0] + v.width / 2f
                 val startY = viewLoc[1] - overlayLoc[1] + v.height / 2f
 
@@ -73,7 +73,7 @@ class ConnectDotActivity : AppCompatActivity() {
                             val endX = targetLoc[0] - overlayLoc[0] + targetView.width / 2f
                             val endY = targetLoc[1] - overlayLoc[1] + targetView.height / 2f
 
-                            overlay.snapAndEndLine(endX, endY) // Final straight connection
+                            overlay.snapAndEndLine(endX, endY) // connecting in st. direction
                             completedColors.add(color)
                             checkWin()
                         } else {
