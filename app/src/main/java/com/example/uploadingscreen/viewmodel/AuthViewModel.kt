@@ -38,6 +38,11 @@ class AuthViewModel: ViewModel() {
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
+<<<<<<< HEAD
+=======
+            } catch(e:Exception){
+                e.printStackTrace() //this is used to print all the errors in logcat
+>>>>>>> 0df75107c0c478e4d8b95f6d1022579dfa18100a
             }
         }
     }
