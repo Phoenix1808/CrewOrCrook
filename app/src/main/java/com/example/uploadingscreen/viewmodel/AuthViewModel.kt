@@ -20,14 +20,24 @@ class AuthViewModel: ViewModel() {
     val loginRes : LiveData<LoginResponse> = _loginRes
 
     fun login(request: LoginRequest){
+        val mock = false
+
         viewModelScope.launch {
-            try{
-                val resp = repo.login(request)
-                if(resp.isSuccessful){
-                    _loginRes.value = resp.body()
+            if (mock) {
+                delay(3000)
+                _loginRes.value = LoginResponse(
+                    success = true,
+                    message = "Mock Login Successful"
+                )
+            } else {
+                try {
+                    val resp = repo.login(request)
+                    if (resp.isSuccessful) {
+                        _loginRes.value = resp.body()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
-            } catch(e:Exception){
-                e.printStackTrace()
             }
         }
     }

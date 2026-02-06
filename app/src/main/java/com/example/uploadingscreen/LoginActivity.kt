@@ -23,7 +23,7 @@ class LoginActivity : AppCompatActivity() {
 
         val etZeal = findViewById<EditText>(R.id.etZealId)
         val etPass = findViewById<EditText>(R.id.etPassword)
-        val btnLogin = findViewById<ImageView>(R.id.btnLogin)
+        val btnLogin = findViewById<ImageView>(R.id.btnconfirm)
 
         btnLogin.setOnClickListener {
 
