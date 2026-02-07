@@ -25,8 +25,9 @@ class AuthViewModel : ViewModel() {
             if (mock) {
                 delay(2000)
                 _loginRes.value = LoginResponse(
-                    message = "Login Successful",
-                    user = null
+                    accessToken = "mocktoken_123",
+                    user = null, //if in case it returns null model mai "User?" is used
+                    message = "Login Success"
                 )
             } else {
                 try {

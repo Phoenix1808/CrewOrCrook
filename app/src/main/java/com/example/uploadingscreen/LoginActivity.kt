@@ -21,41 +21,36 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
 
-        val etZeal = findViewById<EditText>(R.id.etZealId)
+        val etusername = findViewById<EditText>(R.id.etUsername)
         val etPass = findViewById<EditText>(R.id.etPassword)
         val btnLogin = findViewById<ImageView>(R.id.btnconfirm)
 
         btnLogin.setOnClickListener {
 
-            val zeal = etZeal.text.toString().trim()
+            val username = etusername.text.toString().trim()
             val pass = etPass.text.toString().trim()
 
-            if (zeal.isEmpty() || pass.isEmpty()) {
+            if (username.isEmpty() || pass.isEmpty()) {
                 Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            val req = LoginRequest(zeal, pass)
+            val req = LoginRequest(username, pass)
             viewModel.login(req)
 
         }
             viewModel.loginRes.observe(this){response ->
-                if(response.message=="Login Successful"){
+                if(response.accessToken!= null){
                     Toast.makeText(this,"Login Success",Toast.LENGTH_SHORT).show()
 
-                    val prefs = getSharedPreferences("users_prefs", MODE_PRIVATE)
-                    val isProfileComplete = prefs.getBoolean("isProfileComplete", false)
-
-                    if (isProfileComplete) {
-
-                        startActivity(Intent(this, MainActivity::class.java))
-                    } else {
-
-                        startActivity(Intent(this, FormActivity::class.java))
-                    }
+                    getSharedPreferences("auth",MODE_PRIVATE)
+                        .edit()
+                        .putString("token",response.accessToken)
+                        .apply()
+                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 } else{
-                    Toast.makeText(this,response.message,Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,response.message?:"Login Failed",Toast.LENGTH_SHORT).show()
                 }
             }
 
