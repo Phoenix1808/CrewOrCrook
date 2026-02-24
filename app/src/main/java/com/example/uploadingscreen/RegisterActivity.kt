@@ -3,6 +3,7 @@ package com.example.uploadingscreen
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
+import android.text.InputType
 import android.view.View
 import android.widget.EditText
 import android.widget.FrameLayout
@@ -28,10 +29,24 @@ class RegisterActivity : AppCompatActivity() {
         val passwordEt = findViewById<EditText>(R.id.etPassword)
         val btnconfirm = findViewById<ImageView>(R.id.btnconfirm)
         val loader = findViewById<FrameLayout>(R.id.signLoader)
+        val isToggle = findViewById<ImageView>(R.id.toggle)
 
         viewModel.signLoad.observe(this){signLoad->
             loader.visibility = if(signLoad) View.VISIBLE else View.GONE
             btnconfirm.isEnabled = !signLoad
+        }
+
+        var isVisible = false
+        isToggle.setOnClickListener {
+            if(isVisible){
+                passwordEt.inputType= InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                isToggle.setImageResource(R.drawable.ic_eye)
+            } else{
+                passwordEt.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                isToggle.setImageResource(R.drawable.ic_eye_off)
+            }
+            passwordEt.setSelection(passwordEt.text.length)
+            isVisible = !isVisible
         }
 
         btnconfirm.setOnClickListener {
@@ -41,6 +56,21 @@ class RegisterActivity : AppCompatActivity() {
 
             if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "All Fields Required", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                emailEt.error = "Invalid Format"
+                emailEt.requestFocus()
+                return@setOnClickListener
+            }
+            if(!(email.endsWith("@gmail.com") || email.endsWith("@yahoo.com") || email.endsWith("@outlook.com")||email.endsWith("@hotmail.com"))){
+                emailEt.error="Only Gmail,Yahoo,Outlook or Hotmail allowed"
+                emailEt.requestFocus()
+                return@setOnClickListener
+            }
+            if(password.length<6){
+                passwordEt.error = "At least 6 characters required"
+                passwordEt.requestFocus()
                 return@setOnClickListener
             }
 
