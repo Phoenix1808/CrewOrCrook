@@ -2,6 +2,8 @@ package com.example.uploadingscreen
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.ImageView
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
@@ -16,10 +18,29 @@ class FormActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form)
 
-        val branch = findViewById<EditText>(R.id.etBranch)
-        val year = findViewById<EditText>(R.id.etYear)
+        val branch = findViewById<AutoCompleteTextView>(R.id.etBranch)
+        val year = findViewById<AutoCompleteTextView>(R.id.etYear)
         val group = findViewById<EditText>(R.id.etGroup)
         val btncontinue = findViewById<ImageView>(R.id.btnconfirm)
+
+        val branchAdapter = ArrayAdapter(this,
+         R.layout.dropdown_item,
+            resources.getStringArray(R.array.branches)
+        )
+
+        val yearAdapter = ArrayAdapter(this,
+            R.layout.dropdown_item,
+            resources.getStringArray(R.array.years)
+        )
+        branch.setAdapter(branchAdapter)
+        year.setAdapter(yearAdapter)
+
+        branch.setOnClickListener {
+            branch.showDropDown()
+        }
+        year.setOnClickListener {
+            year.showDropDown()
+        }
 
         btncontinue.setOnClickListener {
             val branch = branch.text.toString().trim()

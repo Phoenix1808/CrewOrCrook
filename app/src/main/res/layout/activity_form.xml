@@ -54,20 +54,36 @@
         android:layout_marginStart="32dp"
         />
 
-    <EditText
+<!--    <EditText-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:id="@+id/etBranch"-->
+<!--        android:hint="Branch"-->
+<!--        android:background="@drawable/et_bg"-->
+<!--        android:textColor="@color/black"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/labeltitle"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        android:layout_marginTop="6dp"-->
+<!--        android:paddingHorizontal="16dp"-->
+<!--        android:layout_marginHorizontal="32dp"/>-->
+
+    <AutoCompleteTextView
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:id="@+id/etBranch"
-        android:hint="Branch"
         android:background="@drawable/et_bg"
-        android:textColor="@color/black"
+        android:paddingHorizontal="14dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:hint="Branch"
+        android:focusable="false"
+        android:clickable="true"
         app:layout_constraintTop_toBottomOf="@id/labeltitle"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="6dp"
-        android:paddingHorizontal="16dp"
         android:layout_marginHorizontal="32dp"/>
-
 
     <TextView
         android:id="@+id/labelyear"
@@ -83,14 +99,31 @@
         android:layout_marginStart="32dp"
         />
 
-    <EditText
+<!--    <EditText-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:id="@+id/etYear"-->
+<!--        android:hint="Year(1st / 2nd / 3rd / 4th)"-->
+<!--        android:background="@drawable/et_bg"-->
+<!--        android:paddingHorizontal="16dp"-->
+<!--        android:textColor="@color/black"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/labelyear"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:layout_marginTop="6dp"-->
+<!--        android:layout_marginHorizontal="32dp"/>-->
+
+    <AutoCompleteTextView
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:id="@+id/etYear"
-        android:hint="Year(1st / 2nd / 3rd / 4th)"
         android:background="@drawable/et_bg"
-        android:paddingHorizontal="16dp"
-        android:textColor="@color/black"
+        android:paddingHorizontal="14dp"
+        android:textColor="@android:color/black"
+        android:focusable="false"
+        android:textSize="14sp"
+        android:hint="Year (1st / 2nd / 3rd / 4th)"
+        android:clickable="true"
         app:layout_constraintTop_toBottomOf="@id/labelyear"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
