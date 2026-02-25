@@ -23,11 +23,13 @@ class FormActivity : AppCompatActivity() {
         val group = findViewById<EditText>(R.id.etGroup)
         val btncontinue = findViewById<ImageView>(R.id.btnconfirm)
 
+        //dropdown menu for branches in form activity
         val branchAdapter = ArrayAdapter(this,
          R.layout.dropdown_item,
             resources.getStringArray(R.array.branches)
         )
 
+        //dropdown menu for years in form activity
         val yearAdapter = ArrayAdapter(this,
             R.layout.dropdown_item,
             resources.getStringArray(R.array.years)
