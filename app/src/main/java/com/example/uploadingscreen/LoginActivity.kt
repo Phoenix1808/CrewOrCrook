@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.uploadingscreen.model.LoginRequest
 import com.example.uploadingscreen.viewmodel.AuthViewModel
 import android.widget.FrameLayout
+import android.text.InputType
 
 class LoginActivity : AppCompatActivity() {
 
@@ -27,10 +28,24 @@ class LoginActivity : AppCompatActivity() {
         val etPass = findViewById<EditText>(R.id.etPassword)
         val btnLogin = findViewById<ImageView>(R.id.btnconfirm)
         val loader = findViewById<FrameLayout>(R.id.loaderLogin)
+        val toggle = findViewById<ImageView>(R.id.toggle)
 
         viewModel.loading.observe(this){loading->
             loader.visibility = if(loading) View.VISIBLE else View.GONE
             btnLogin.isEnabled = !loading
+        }
+
+        var isVisible = false
+        toggle.setOnClickListener {
+            if(isVisible){
+                etPass.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                toggle.setImageResource(R.drawable.ic_eye)
+            } else{
+                etPass.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                toggle.setImageResource(R.drawable.ic_eye_off)
+            }
+            etPass.setSelection(etPass.text.length)
+            isVisible = !isVisible
         }
 
         btnLogin.setOnClickListener {
