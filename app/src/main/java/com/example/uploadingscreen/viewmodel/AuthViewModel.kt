@@ -9,21 +9,20 @@ import com.example.uploadingscreen.model.LoginResponse
 import com.example.uploadingscreen.model.SignUpRequest
 import com.example.uploadingscreen.model.SignUpResponse
 import com.example.uploadingscreen.repository.AuthRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class AuthViewModel : ViewModel() {
 
     private val repo = AuthRepository()
 
-    // livedata login ka
+
     private val _loginRes = MutableLiveData<LoginResponse>()
     val loginRes: LiveData<LoginResponse> = _loginRes
 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
     fun login(request: LoginRequest) {
-//        val mock = false
+
         _loading.value = true
         viewModelScope.launch {
 
@@ -46,13 +45,13 @@ class AuthViewModel : ViewModel() {
                         user = null,
                         message = "Network Error: ${e.message}"
                     )
-                } finally { //used to make sure if API fails loader stops
+                } finally {
                     _loading.value = false
                 }
             }
     }
 
-    // livedata register ka
+
     private val _signUpRes = MutableLiveData<SignUpResponse>()
     val signUpRes: LiveData<SignUpResponse> = _signUpRes
 
@@ -61,7 +60,7 @@ class AuthViewModel : ViewModel() {
 
     fun register(request: SignUpRequest) {
         _signLoad.value = true
-        val mock = false
+
         viewModelScope.launch {
 
                 try {
@@ -78,7 +77,7 @@ class AuthViewModel : ViewModel() {
                     _signUpRes.value = SignUpResponse(
                         message = "Network Error: ${e.message}",
                         user = null
-                    ) //used for printing all the error logs
+                    )
                 }
                 finally {
                     _signLoad.value = false
