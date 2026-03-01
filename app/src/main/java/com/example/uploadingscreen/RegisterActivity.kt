@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.uploadingscreen.model.SignUpRequest
+import com.example.uploadingscreen.utils.Resource
 import com.example.uploadingscreen.viewmodel.AuthViewModel
 import kotlin.math.sign
 
@@ -31,10 +32,10 @@ class RegisterActivity : AppCompatActivity() {
         val loader = findViewById<FrameLayout>(R.id.signLoader)
         val isToggle = findViewById<ImageView>(R.id.toggle)
 
-        viewModel.signLoad.observe(this){signLoad->
-            loader.visibility = if(signLoad) View.VISIBLE else View.GONE
-            btnconfirm.isEnabled = !signLoad
-        }
+//        viewModel.signLoad.observe(this){signLoad->
+//            loader.visibility = if(signLoad) View.VISIBLE else View.GONE
+//            btnconfirm.isEnabled = !signLoad
+//        }
 
         var isVisible = false
         isToggle.setOnClickListener {
@@ -79,13 +80,43 @@ class RegisterActivity : AppCompatActivity() {
         }
 
 
-        viewModel.signUpRes.observe(this) { response ->
-            if (response.message == "User created") {
-                Toast.makeText(this, "SignUp Successful", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, FormActivity::class.java))
-                finish()
-            } else {
-                Toast.makeText(this, "SignUp Failed", Toast.LENGTH_SHORT).show()
+//        viewModel.signUpRes.observe(this) { response ->
+//            if (response.message == "User created") {
+//                Toast.makeText(this, "SignUp Successful", Toast.LENGTH_SHORT).show()
+//                startActivity(Intent(this, FormActivity::class.java))
+//                finish()
+//            } else {
+//                Toast.makeText(this, "SignUp Failed", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+        viewModel.signUpRes.observe(this) { resource ->
+
+            when(resource) {
+
+                is Resource.Loading -> {
+                    loader.visibility = View.VISIBLE
+                    btnconfirm.isEnabled = false
+                }
+
+                is Resource.Success -> {
+                    loader.visibility = View.GONE
+                    btnconfirm.isEnabled = true
+
+                    Toast.makeText(this, "SignUp Successful", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, FormActivity::class.java))
+                    finish()
+                }
+
+                is Resource.Error -> {
+                    loader.visibility = View.GONE
+                    btnconfirm.isEnabled = true
+
+                    Toast.makeText(
+                        this,
+                        resource.message ?: "SignUp Failed",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }

@@ -9,95 +9,36 @@ import com.example.uploadingscreen.model.LoginResponse
 import com.example.uploadingscreen.model.SignUpRequest
 import com.example.uploadingscreen.model.SignUpResponse
 import com.example.uploadingscreen.repository.AuthRepository
+import com.example.uploadingscreen.utils.Resource
 import kotlinx.coroutines.launch
 
 class AuthViewModel : ViewModel() {
 
     private val repo = AuthRepository()
-<<<<<<< HEAD
 
+    private val _loginRes = MutableLiveData<Resource<LoginResponse>>()
+    val loginRes: LiveData<Resource<LoginResponse>> = _loginRes
 
-=======
-    
->>>>>>> 7a27b54323f2a39e13d1ceaee931f7b5a37a22bd
-    private val _loginRes = MutableLiveData<LoginResponse>()
-    val loginRes: LiveData<LoginResponse> = _loginRes
-
-    private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean> = _loading
     fun login(request: LoginRequest) {
 
-        _loading.value = true
         viewModelScope.launch {
 
-                try {
+            _loginRes.value = Resource.Loading()
 
-                    val resp = repo.login(request)
+            val result = repo.login(request)
 
-                    if (resp.isSuccessful && resp.body()!=null) {
-                        _loginRes.value = resp.body()
-                    } else {
-                        _loginRes.value = LoginResponse(
-                            accessToken = null,
-                            user = null,
-                            message = "Invalid Credentials"
-                        )
-                    }
-                } catch (e: Exception) {
-                    _loginRes.value = LoginResponse(
-                        accessToken = null,
-                        user = null,
-                        message = "Network Error: ${e.message}"
-                    )
-<<<<<<< HEAD
-                } finally {
-=======
-                } finally { 
->>>>>>> 7a27b54323f2a39e13d1ceaee931f7b5a37a22bd
-                    _loading.value = false
-                }
-            }
-    }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 7a27b54323f2a39e13d1ceaee931f7b5a37a22bd
-    private val _signUpRes = MutableLiveData<SignUpResponse>()
-    val signUpRes: LiveData<SignUpResponse> = _signUpRes
-
-    private val _signLoad = MutableLiveData<Boolean>()
-    val signLoad : LiveData<Boolean> = _signLoad
-
-    fun register(request: SignUpRequest) {
-        _signLoad.value = true
-
-        viewModelScope.launch {
-
-                try {
-                    val resp = repo.register(request)
-                    if (resp.isSuccessful) {
-                        _signUpRes.value = resp.body()
-                    } else {
-                        _signUpRes.value = SignUpResponse(
-                            message = "Registration Failed",
-                            user = null
-                        )
-                    }
-                } catch (e: Exception) {
-                    _signUpRes.value = SignUpResponse(
-                        message = "Network Error: ${e.message}",
-                        user = null
-<<<<<<< HEAD
-                    )
-=======
-                    ) 
->>>>>>> 7a27b54323f2a39e13d1ceaee931f7b5a37a22bd
-                }
-                finally {
-                    _signLoad.value = false
-                }
-            }
+            _loginRes.value = result
         }
     }
 
+    private val _signUpRes = MutableLiveData<Resource<SignUpResponse>>()
+    val signUpRes: LiveData<Resource<SignUpResponse>> = _signUpRes
+
+    fun register(request: SignUpRequest) {
+        viewModelScope.launch {
+            _signUpRes.value = Resource.Loading()
+            _signUpRes.value = repo.register(request)
+        }
+    }
+
+}

@@ -3,7 +3,7 @@ package com.example.uploadingscreen
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
+import com.example.uploadingscreen.utils.Resource
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -30,10 +30,10 @@ class LoginActivity : AppCompatActivity() {
         val loader = findViewById<FrameLayout>(R.id.loaderLogin)
         val toggle = findViewById<ImageView>(R.id.toggle)
 
-        viewModel.loading.observe(this){loading->
-            loader.visibility = if(loading) View.VISIBLE else View.GONE
-            btnLogin.isEnabled = !loading
-        }
+//        viewModel.loading.observe(this){loading->
+//            loader.visibility = if(loading) View.VISIBLE else View.GONE
+//            btnLogin.isEnabled = !loading
+//        }
 
 
         //toggle option in the login screen 
@@ -65,20 +65,59 @@ class LoginActivity : AppCompatActivity() {
             viewModel.login(req)
 
         }
-            viewModel.loginRes.observe(this){response ->
-                if(response.accessToken!= null){
-                    Toast.makeText(this,"Login Success",Toast.LENGTH_SHORT).show()
+//            viewModel.loginRes.observe(this){response ->
+//                if(response.accessToken!= null){
+//                    Toast.makeText(this,"Login Success",Toast.LENGTH_SHORT).show()
+//
+//                    getSharedPreferences("auth",MODE_PRIVATE)
+//                        .edit()
+//                        .putString("token",response.accessToken)
+//                        .apply()
+//                     startActivity(Intent(this, MainActivity::class.java))
+//                    finish()
+//                } else{
+//                    Toast.makeText(this,response.message?:"Login Failed",Toast.LENGTH_SHORT).show()
+//                }
+//            }
 
-                    getSharedPreferences("auth",MODE_PRIVATE)
+        viewModel.loginRes.observe(this) { resource ->
+
+            when (resource) {
+
+                is Resource.Loading -> {
+                    loader.visibility = View.VISIBLE
+                    btnLogin.isEnabled = false
+                }
+
+                is Resource.Success -> {
+                    loader.visibility = View.GONE
+                    btnLogin.isEnabled = true
+
+                    val response = resource.data
+
+                    Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
+
+                    getSharedPreferences("auth", MODE_PRIVATE)
                         .edit()
-                        .putString("token",response.accessToken)
+                        .putString("token", response?.accessToken)
                         .apply()
-                     startActivity(Intent(this, MainActivity::class.java))
+
+                    startActivity(Intent(this, MainActivity::class.java))
                     finish()
-                } else{
-                    Toast.makeText(this,response.message?:"Login Failed",Toast.LENGTH_SHORT).show()
+                }
+
+                is Resource.Error -> {
+                    loader.visibility = View.GONE
+                    btnLogin.isEnabled = true
+
+                    Toast.makeText(
+                        this,
+                        resource.message ?: "Login Failed",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
+        }
 
         }
     }
