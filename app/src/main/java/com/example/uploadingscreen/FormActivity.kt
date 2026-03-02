@@ -25,7 +25,7 @@ class FormActivity : AppCompatActivity() {
 
         //dropdown menu for branches in form activity
         val branchAdapter = ArrayAdapter(this,
-         R.layout.dropdown_item,
+            R.layout.dropdown_item,
             resources.getStringArray(R.array.branches)
         )
 

@@ -6,6 +6,8 @@ import com.example.uploadingscreen.model.CreateRoomResponse
 import com.example.uploadingscreen.model.LoginRequest
 import com.example.uploadingscreen.model.LoginResponse
 import com.example.uploadingscreen.model.RoomLookupResponse
+import com.example.uploadingscreen.model.SetupRequest
+import com.example.uploadingscreen.model.SetupResponse
 //import com.example.uploadingscreen.model.SetupRequest
 //import com.example.uploadingscreen.model.SetupResponse
 import com.example.uploadingscreen.model.SignUpRequest
@@ -31,11 +33,11 @@ interface ApiService {
         @Body request: LoginRequest
     ): Response<LoginResponse>
 
-//    @POST("auth/setup")
-//    suspend fun setup(
-//        @Body request: SetupRequest,
-//        @Header("Authorization") token : String
-//    ): Response<SetupResponse>
+    @POST("auth/setup")
+    suspend fun setup(
+        @Body request: SetupRequest,
+        @Header("Authorization") token : String
+    ): Response<SetupResponse>
 
     @POST("room/createNew")
     suspend fun createRoom(

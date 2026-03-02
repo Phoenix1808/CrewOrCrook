@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.uploadingscreen.model.LoginRequest
 import com.example.uploadingscreen.model.LoginResponse
+import com.example.uploadingscreen.model.SetupRequest
+import com.example.uploadingscreen.model.SetupResponse
 import com.example.uploadingscreen.model.SignUpRequest
 import com.example.uploadingscreen.model.SignUpResponse
 import com.example.uploadingscreen.repository.AuthRepository
@@ -38,6 +40,15 @@ class AuthViewModel : ViewModel() {
         viewModelScope.launch {
             _signUpRes.value = Resource.Loading()
             _signUpRes.value = repo.register(request)
+        }
+    }
+
+    private val _setUp = MutableLiveData<Resource<SetupResponse>>()
+    val setUp : LiveData<Resource<SetupResponse>> = _setUp
+    fun setup(token:String,request: SetupRequest){
+        viewModelScope.launch{
+            _setUp.value = Resource.Loading()
+            _setUp.value = repo.setup(token,request)
         }
     }
 
