@@ -1,5 +1,6 @@
 package com.example.uploadingscreen
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,11 +16,13 @@ import com.example.uploadingscreen.viewmodel.RoomViewModel
 import io.socket.client.Ack
 import org.json.JSONObject
 
+//after emitting the event of game:start the users are getting connected and only host is permitted to start the game but the issue is there is a toast coming that u need at least 3 more players to begin and hence UI ain't navigating to GameActivity.
 class LobbyActivity : AppCompatActivity() {
 
     private lateinit var viewModel: RoomViewModel
     private var authToken: String? = null
     private var joinedRoomCode: String? = null
+    private lateinit var btnStartGame: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +40,7 @@ class LobbyActivity : AppCompatActivity() {
             return
         }
 
-        //  Initialize & connect socket
+        //  initialize & connect socket
         SocketManager.init(authToken!!)
         SocketManager.connect()
 
@@ -52,6 +55,14 @@ class LobbyActivity : AppCompatActivity() {
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
         val tvCreateResult = findViewById<TextView>(R.id.tvCreateResult)
         val tvLookupResult = findViewById<TextView>(R.id.tvLookupResult)
+        btnStartGame = findViewById<Button>(R.id.btnStartGame)
+
+        btnStartGame.isEnabled= false
+
+        btnStartGame.setOnClickListener {
+            startGame()
+        }
+
 
         val adapter = RoomAdapter(emptyList()) { room ->
             viewModel.lookupRoom(authToken!!, room.code)
@@ -153,7 +164,7 @@ class LobbyActivity : AppCompatActivity() {
             }
         }
     }
-
+//game initialization k liye
     private fun joinRoom(roomCode: String) {
 
         val socket = SocketManager.getSocket() ?: return
@@ -171,45 +182,44 @@ class LobbyActivity : AppCompatActivity() {
                 Log.d("SOCKET_DEBUG", "ACK raw: ${args.contentToString()}")
 
                 if (args.isEmpty()) {
-                    toast("No ACK received from server")
+                    toast("No ACK received")
                     return@runOnUiThread
                 }
 
-                try {
+                val firstArg = args[0]
 
-                    val firstArg = args[0]
+                when (firstArg) {
 
-                    if (firstArg is JSONObject) {
-
+                    is JSONObject -> {
                         val ok = firstArg.optBoolean("ok", false)
                         val message = firstArg.optString("message", "")
 
                         if (ok) {
                             joinedRoomCode = roomCode
-                            toast("Joined room successfully ")
+                            btnStartGame.isEnabled = true
+                            toast("Joined successfully")
                         } else {
                             toast("Join failed: $message")
                         }
+                    }
 
-                    } else if (firstArg is Boolean) {
-
+                    is Boolean -> {
                         if (firstArg) {
                             joinedRoomCode = roomCode
-                            toast("Joined room successfully ")
+                            btnStartGame.isEnabled = true
+                            toast("Joined successfully")
                         } else {
                             toast("Join failed")
                         }
-
-                    } else {
-
-                        toast("Unknown ACK format: $firstArg")
                     }
 
-                } catch (e: Exception) {
+                    is String -> {
+                        toast(firstArg)
+                    }
 
-                    Log.e("SOCKET_DEBUG", "ACK parsing error: ${e.message}")
-                    toast("ACK parse error")
-
+                    else -> {
+                        toast("Unknown ACK type: ${firstArg::class.java.simpleName}")
+                    }
                 }
             }
         })
@@ -233,19 +243,13 @@ class LobbyActivity : AppCompatActivity() {
 
         socket.on("game:started") {
             runOnUiThread {
-                toast("Game Started ")
+                Log.d("SOCKET_DEBUG", "game:started event received")
+                val intent = Intent(this, GameActivity::class.java)
+                intent.putExtra("roomCode",joinedRoomCode)
+                startActivity(intent)
             }
         }
 
-        socket.on("game:role") { args ->
-            runOnUiThread {
-                if (args.isNotEmpty() && args[0] is JSONObject) {
-                    val data = args[0] as JSONObject
-                    val role = data.optString("role")
-                    toast("Your role: $role")
-                }
-            }
-        }
 
         socket.on("game:error") { args ->
             runOnUiThread {
@@ -258,12 +262,49 @@ class LobbyActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        SocketManager.disconnect()
-    }
 
     private fun toast(msg: String?) {
         Toast.makeText(this, msg ?: "Something went wrong", Toast.LENGTH_SHORT).show()
     }
+
+    private fun startGame() {
+
+        val socket = SocketManager.getSocket() ?: return
+        val roomCode = joinedRoomCode ?: return
+
+        val payload = JSONObject().apply {
+            put("roomCode", roomCode)
+        }
+
+        Log.d("SOCKET_DEBUG", "Emitting game:start")
+
+        socket.emit("game:start", payload, Ack { args ->
+
+            runOnUiThread {
+
+                Log.d("SOCKET_DEBUG", "StartGame ACK raw: ${args.contentToString()}")
+
+                if (args.isNotEmpty() && args[0] is JSONObject) {
+
+                    val response = args[0] as JSONObject
+                    val ok = response.optBoolean("ok", false)
+
+                    if (ok) {
+
+                        Log.d("SOCKET_DEBUG", "Start game acknowledged OK")
+
+
+                        val intent = Intent(this, GameActivity::class.java)
+                        intent.putExtra("roomCode", joinedRoomCode)
+                        startActivity(intent)
+
+                    } else {
+                        toast(response.optString("message"))
+                    }
+                }
+            }
+        })
+    }
+
+
 }
