@@ -25,11 +25,11 @@ object SocketManager {
         socket?.connect()
 
         socket?.on(Socket.EVENT_CONNECT) {
-            Log.d("SOCKET", "Connected successfully ✅")
+            Log.d("SOCKET", "Connected successfully !!")
         }
 
         socket?.on(Socket.EVENT_DISCONNECT) {
-            Log.d("SOCKET", "Disconnected ❌")
+            Log.d("SOCKET", "Disconnected !!")
         }
 
         socket?.on(Socket.EVENT_CONNECT_ERROR) {
