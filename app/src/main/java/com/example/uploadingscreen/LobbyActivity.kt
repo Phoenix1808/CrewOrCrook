@@ -16,7 +16,7 @@ import com.example.uploadingscreen.viewmodel.RoomViewModel
 import io.socket.client.Ack
 import org.json.JSONObject
 
-//after emitting the event of game:start the users are getting connected and only host is permitted to start the game but the issue is there is a toast coming that u need at least 3 more players to begin and hence UI ain't navigating to GameActivity.
+//after emitting the event of game:started the users are getting connected and only host is permitted to start the game but the issue is there is a toast coming that u need at least 3 more players to begin and hence UI ain't navigating to GameActivity.
 class LobbyActivity : AppCompatActivity() {
 
     private lateinit var viewModel: RoomViewModel
