@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
                 etPass.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                 toggle.setImageResource(R.drawable.ic_eye)
             } else{
-                etPass.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                etPass.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
                 toggle.setImageResource(R.drawable.ic_eye_off)
             }
             etPass.setSelection(etPass.text.length)
