@@ -17,6 +17,7 @@ import android.text.InputType
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var viewModel : AuthViewModel
+    private var username: String= ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
 
         btnLogin.setOnClickListener {
 
-            val username = etusername.text.toString().trim()
+            username = etusername.text.toString().trim()
             val pass = etPass.text.toString().trim()
 
             if (username.isEmpty() || pass.isEmpty()) {
@@ -100,6 +101,7 @@ class LoginActivity : AppCompatActivity() {
                     getSharedPreferences("auth", MODE_PRIVATE)
                         .edit()
                         .putString("token", response?.accessToken)
+                        .putString("username",username)
                         .apply()
 
                     startActivity(Intent(this, LobbyActivity::class.java))

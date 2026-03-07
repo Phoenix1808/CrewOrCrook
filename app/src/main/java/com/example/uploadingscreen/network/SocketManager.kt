@@ -6,7 +6,7 @@ import io.socket.client.Socket
 
 object SocketManager {
 
-    private const val BASE_URL = "https://creworcrook.onrender.com"
+    private const val BASE_URL = "https://creworcrook.onrender.com/"
 
     private var socket: Socket? = null
 

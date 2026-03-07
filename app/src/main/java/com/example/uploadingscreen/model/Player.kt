@@ -4,6 +4,7 @@ data class Player(
     val _id: String,
     val userId: String,
     val roomId: String,
+    val username:String,
     val socketId: String?,
     val role: String,
     val createdAt: String,
