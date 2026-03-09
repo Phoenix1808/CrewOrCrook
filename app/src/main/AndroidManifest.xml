@@ -21,7 +21,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDROAyNMX0SHlvzt38FKDeTZcUR7zDuB38"/>
+            android:value="API_KEY"/>
 
         <activity
             android:name="com.example.uploadingscreen.WaitinRoomActivity"
