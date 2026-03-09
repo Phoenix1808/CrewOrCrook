@@ -5,39 +5,75 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A8E6CF"
+    android:background="#1B1745"
     tools:context=".MemoryGameActivity">
+
+    <ImageView
+        android:id="@+id/dimag"
+        android:layout_width="75dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="45dp"
+        android:src="@drawable/brain"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dottitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MEMORY MATRIX"
+        android:textSize="42sp"
+        android:textStyle="normal"
+        android:fontFamily="@font/bangers_regular"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="45dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/dimag"
+        android:layout_marginStart="0dp"/>
+
+    <TextView
+        android:id="@+id/txtSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Match all pair of cards to complete the task!"
+        android:textSize="14sp"
+        android:textColor="#F7E74A"
+        app:layout_constraintTop_toBottomOf="@id/dottitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="5dp"/>
 
     <TextView
         android:id="@+id/scoreCalc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Score: 0"
-        android:textSize="20sp"
-        android:background="@drawable/score_bg"
-        android:textColor="#ffffff"
-        android:textStyle="bold"
+        android:layout_marginTop="168dp"
+        android:background="@drawable/dotbackground"
         android:padding="10dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:text="Score: 0"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <GridLayout
         android:id="@+id/gridLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:rowCount="4"
+        android:layout_width="429dp"
+        android:layout_height="478dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="16dp"
+        android:alignmentMode="alignMargins"
         android:columnCount="3"
         android:padding="16dp"
-        android:alignmentMode="alignMargins"
+        android:rowCount="4"
         android:useDefaultMargins="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginHorizontal="16dp"
-        app:layout_constraintTop_toBottomOf="@id/scoreCalc"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/scoreCalc" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

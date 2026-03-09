@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">UploadingScreen</string>
+    <string name="app_name">Among Us</string>
 
     <string-array name="branches">
         <item>CSE</item>

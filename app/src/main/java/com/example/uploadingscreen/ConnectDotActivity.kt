@@ -86,9 +86,6 @@ class ConnectDotActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<Button>(R.id.btnRestart).setOnClickListener {
-            restartGame()
-        }
     }
 
     private fun isInside(rawX: Float, rawY: Float, v: View): Boolean {
@@ -110,13 +107,6 @@ class ConnectDotActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun restartGame() {
-        completedColors.clear()
-        overlay.clearLines()
-        findViewById<TextView>(R.id.winText).visibility = View.GONE
-    }
-
 
     inner class LineOverlayView(context: android.content.Context) : View(context) {
         private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {

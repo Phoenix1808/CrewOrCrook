@@ -30,20 +30,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:elevation="4dp"/>
 
-     <TextView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:id="@+id/txtLogin"
-         android:text="LOGIN NOW"
-         android:textColor="@color/white"
-         android:textSize="42sp"
-         android:fontFamily="@font/bangers_regular"
-         android:letterSpacing="0.06"
-         app:layout_constraintTop_toBottomOf="@id/imgAstronaut"
-         app:layout_constraintStart_toStartOf="parent"
-         app:layout_constraintEnd_toEndOf="parent"
-         android:layout_marginTop="0dp"
-         />
+    <TextView
+        android:id="@+id/txtLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/bangers_regular"
+        android:letterSpacing="0.06"
+        android:text="LOGIN NOW"
+        android:textColor="@color/white"
+        android:textSize="42sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgAstronaut" />
 
     <TextView
         android:layout_width="wrap_content"
