@@ -76,6 +76,27 @@
         app:layout_constraintTop_toBottomOf="@id/tvNearbyPlayers"
         app:layout_constraintStart_toStartOf="parent"/>
 
+    <Button
+        android:id="@+id/btnKill"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="KILL"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:enabled="false"
+        android:layout_marginTop="200dp"
+        app:layout_constraintTop_toBottomOf="@id/tvNearbyPlayers"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <Button
+        android:id="@+id/btnReport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toBottomOf="@id/btnKill"
+        android:text="REPORT BODY"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
