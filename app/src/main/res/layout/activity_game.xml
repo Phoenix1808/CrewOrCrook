@@ -98,5 +98,24 @@
         app:layout_constraintTop_toBottomOf="@id/btnKill"
         android:text="REPORT BODY"/>
 
+    <TextView
+        android:id="@+id/tvTaskProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tasks: 0 / 0"
+        android:textSize="21sp"
+        android:textStyle="bold"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@id/btnReport"
+        android:textColor="@android:color/black"/>
+
+    <Button
+        android:id="@+id/btnTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/tvTaskProgress"
+        android:text="Do Task"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

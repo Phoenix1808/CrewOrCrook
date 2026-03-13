@@ -48,7 +48,11 @@ class WaitinRoomActivity : AppCompatActivity() {
                 put("roomCode", roomCode)
             }
 
-            socket.emit("game:start", payload)
+            android.util.Log.d("GAME_DEBUG", "Host clicked start")
+
+            socket.emit("game:start", payload, io.socket.client.Ack { args ->
+                android.util.Log.d("GAME_DEBUG", "Start game ACK: $args")
+            })
         }
 
         val existingPlayers = intent.getStringArrayExtra("players")
@@ -64,9 +68,8 @@ class WaitinRoomActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
         }
 
-        setupSocket()
-
         joinRoomSocket()
+        setupSocket()
     }
 
     private fun setupSocket() {
@@ -76,7 +79,7 @@ class WaitinRoomActivity : AppCompatActivity() {
         socket.off("lobby:players-list")
         socket.off("game:started")
         socket.off("game:role")
-        socket?.off("lobby:player-joined")
+        socket.off("lobby:player-joined")
 
         socket.on("lobby:players-list") { args ->
 
@@ -89,6 +92,7 @@ class WaitinRoomActivity : AppCompatActivity() {
                 runOnUiThread {
 
                     players.clear()
+                    playerMap.clear()
 
                     for (i in 0 until playersArray.length()) {
 
@@ -129,7 +133,7 @@ class WaitinRoomActivity : AppCompatActivity() {
         }
 
         socket.on("game:started") {
-
+               android.util.Log.d("GAME_DEBUG","game:started recieved")
             runOnUiThread {
                 // optional loading UI
             }
@@ -137,6 +141,7 @@ class WaitinRoomActivity : AppCompatActivity() {
 
         socket.on("game:role") { args ->
 
+            android.util.Log.d("GAME_DEBUG","game:role received :$args")
             if (args.isNotEmpty() && args[0] is JSONObject) {
 
                 val data = args[0] as JSONObject
@@ -168,6 +173,8 @@ class WaitinRoomActivity : AppCompatActivity() {
         val payload = JSONObject().apply {
             put("roomCode", roomCode)
         }
+        //this enables the auto-rejoin after reconnection
+        SocketManager.setCurrentRoom(roomCode!!)
 
         socket.emit("lobby:join-room", payload)
     }

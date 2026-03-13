@@ -78,13 +78,15 @@ class LoginActivity : AppCompatActivity() {
 
                     Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
 
-                    getSharedPreferences("auth", MODE_PRIVATE)
-                        .edit()
-                        .putString("token", response?.accessToken)
-                        .putString("username", username)
-                        .apply()
+//                    getSharedPreferences("auth", MODE_PRIVATE)
+//                        .edit()
+//                        .putString("token", response?.accessToken)
+//                        .putString("username", username)
+//                        .apply()
 
-                    startActivity(Intent(this, LobbyActivity::class.java))
+                    val intent = Intent(this, LobbyActivity::class.java)
+                    intent.putExtra("token", response?.accessToken)
+                    startActivity(intent)
                     finish()
                 }
 

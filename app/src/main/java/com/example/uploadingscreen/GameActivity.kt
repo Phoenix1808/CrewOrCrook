@@ -12,9 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.uploadingscreen.databinding.ActivityGameBinding
 import com.example.uploadingscreen.network.SocketManager
+import com.example.uploadingscreen.socket.TaskHandler
 import com.google.android.gms.location.*
 import org.json.JSONObject
-
+import com.example.uploadingscreen.network.GameEndHandler
 data class DeadBody(
     val victimId: String,
     val lat: Double,
@@ -39,6 +40,12 @@ class GameActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
 
+
+    //socket events for tasks:progress & task:complete
+    private lateinit var taskHandler : TaskHandler
+
+    private lateinit var lifeHandler : GameEndHandler
+
     companion object {
         private const val LOCATION_PERMISSION_REQUEST = 101
         private const val REPORT_RANGE_METRES = 8f
@@ -61,6 +68,7 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
+        //room
         roomCode = intent.getStringExtra("roomCode")
         role = intent.getStringExtra("role")
 
@@ -82,21 +90,42 @@ class GameActivity : AppCompatActivity() {
             binding.tvStatus.text = "Role Not Assigned"
         }
 
+        //kill btn
         binding.btnKill.setOnClickListener {
             val victim = currentVictimId ?: return@setOnClickListener
             sendKill(victim)
         }
 
+        //body report
         binding.btnReport.setOnClickListener {
             sendReportBody()
         }
 
         binding.btnReport.visibility = View.GONE
 
+        //task:progress & task:complete
+        taskHandler = TaskHandler(roomCode){completed,total ->
+            runOnUiThread {
+                binding.tvTaskProgress.text = "Tasks: $completed / $total"
+            }
+        }
+        taskHandler.TaskProgress()
+
+        binding.btnTask.setOnClickListener{
+            if(role == "crewmate"){
+                taskHandler.TaskComplete()
+            }
+        }
+
+        //game:ended & game:error
+        lifeHandler = GameEndHandler(this,role)
+        lifeHandler.gameEnd()
+        lifeHandler.gameError()
+
         listenForPlayerMovement()
         listenForTargets()
         listenForKillEvent()
-       listenMeetingStart()
+        listenMeetingStart()
         requestBodies()
 
         setupLocation()
@@ -479,6 +508,20 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
+
+    //when meeting finishes then android returns to existing Game instance but inside this activity
+    // we stopped location updates when meeting started
+    // so after returning gps,movememt,nearby detection and kill detection may stop
+    //hence we used this onResume
+
+    override fun onResume(){
+        super.onResume()
+        if(::fusedLocationClient.isInitialized){
+            Log.d("GAME_RESUME","restarting location updates")
+            startLocationUpdates()
+        }
+    }
+
     override fun onDestroy() {
 
         super.onDestroy()
@@ -489,6 +532,8 @@ class GameActivity : AppCompatActivity() {
         socket?.off("game:nearby-targets")
         socket?.off("game:kill-event")
         socket?.off("game:meeting-started")
+        taskHandler.cleanup()
+        lifeHandler.cleanup()
 
         fusedLocationClient.removeLocationUpdates(locationCallback)
     }

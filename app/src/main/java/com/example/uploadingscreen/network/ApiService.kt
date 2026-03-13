@@ -8,8 +8,6 @@ import com.example.uploadingscreen.model.LoginResponse
 import com.example.uploadingscreen.model.RoomLookupResponse
 import com.example.uploadingscreen.model.SetupRequest
 import com.example.uploadingscreen.model.SetupResponse
-//import com.example.uploadingscreen.model.SetupRequest
-//import com.example.uploadingscreen.model.SetupResponse
 import com.example.uploadingscreen.model.SignUpRequest
 import com.example.uploadingscreen.model.SignUpResponse
 

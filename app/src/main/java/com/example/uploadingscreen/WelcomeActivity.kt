@@ -12,16 +12,16 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
 
-        val token = getSharedPreferences("auth", MODE_PRIVATE)
-            .getString("token", null)
-
-        // If already logged in
-        if (token != null) {
-
-            startActivity(Intent(this, LobbyActivity::class.java))
-            finish()
-            return
-        }
+//        val token = getSharedPreferences("auth", MODE_PRIVATE)
+//            .getString("token", null)
+//
+//        // If already logged in
+//        if (token != null) {
+//
+//            startActivity(Intent(this, LobbyActivity::class.java))
+//            finish()
+//            return
+//        }
 
         // Signup button
         findViewById<View>(R.id.btnSignup).setOnClickListener {
