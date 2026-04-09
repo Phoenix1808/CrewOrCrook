@@ -50,19 +50,3 @@ Continuous improvement, better architecture, and scalable implementation are the
 ---
 
 ⭐ Always building. Always learning.
-
-### MARCH-3
-
-- REST Layer
-- SOCKET Layer
-
-- In the Rest one we have covered POST/room/createNew , GET/room/available, GET/room/{code}/lookup
-
-- In the socket part we have covered Socket Auth, SocketManager.init(token) & SocketManager.connect()
-- We emitted **lobby:join:room** with ACK handled + Success Stored + joinedRoomCode
-- Also **lobby:player:joined**
-
-- What's to be done now:
-- 1. **game:started** we have implemented but only toast is visible not the UI transitioning same with **game:role** , **game:error** listener is implemented
-- 2.  Missing part includes **game:start (emit)** , **game:started (navigate)**, **game:role (store+pass)**
-  3.  Role of LobbyAcitivty will be Room Creation/LookUp/Get Available Rooms + Lobby Join + Player Wait + Host Presses Start **In short this activity is for pre-game phase** will have another activity which will handle **In-Game Phase**
