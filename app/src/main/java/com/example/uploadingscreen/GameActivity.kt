@@ -13,16 +13,19 @@ import androidx.core.app.ActivityCompat
 import com.example.uploadingscreen.databinding.ActivityGameBinding
 import com.example.uploadingscreen.network.SocketManager
 import com.example.uploadingscreen.socket.TaskHandler
+import com.example.uploadingscreen.network.GameEndHandler
 import com.google.android.gms.location.*
 import org.json.JSONObject
-import com.example.uploadingscreen.network.GameEndHandler
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.*
+
 data class DeadBody(
     val victimId: String,
     val lat: Double,
     val lng: Double
 )
 
-class GameActivity : AppCompatActivity() {
+class GameActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var binding: ActivityGameBinding
 
@@ -33,18 +36,18 @@ class GameActivity : AppCompatActivity() {
 
     private var currentVictimId: String? = null
 
-
     private val deadBodies = mutableListOf<DeadBody>()
     private var reportTargetBody: DeadBody? = null
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
 
-
-    //socket events for tasks:progress & task:complete
     private lateinit var taskHandler : TaskHandler
-
     private lateinit var lifeHandler : GameEndHandler
+
+    private lateinit var mMap: GoogleMap
+    private val playerMarkers = mutableMapOf<String, Marker>()
+    private var myMarker: Marker? = null
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST = 101
@@ -59,6 +62,10 @@ class GameActivity : AppCompatActivity() {
         binding = ActivityGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.mapFragment) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
         val userIds = intent.getStringArrayExtra("userIds")
         val usernames = intent.getStringArrayExtra("usernames")
 
@@ -68,7 +75,6 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
-        //room
         roomCode = intent.getStringExtra("roomCode")
         role = intent.getStringExtra("role")
 
@@ -90,20 +96,17 @@ class GameActivity : AppCompatActivity() {
             binding.tvStatus.text = "Role Not Assigned"
         }
 
-        //kill btn
         binding.btnKill.setOnClickListener {
             val victim = currentVictimId ?: return@setOnClickListener
             sendKill(victim)
         }
 
-        //body report
         binding.btnReport.setOnClickListener {
             sendReportBody()
         }
 
         binding.btnReport.visibility = View.GONE
 
-        //task:progress & task:complete
         taskHandler = TaskHandler(roomCode){completed,total ->
             runOnUiThread {
                 binding.tvTaskProgress.text = "Tasks: $completed / $total"
@@ -117,7 +120,6 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
-        //game:ended & game:error
         lifeHandler = GameEndHandler(this,role)
         lifeHandler.gameEnd()
         lifeHandler.gameError()
@@ -131,7 +133,20 @@ class GameActivity : AppCompatActivity() {
         setupLocation()
     }
 
-    // fxn for location system
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+       mMap.uiSettings.isZoomControlsEnabled = true
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            mMap.isMyLocationEnabled = true
+        }
+    }
+
+
     private fun setupLocation() {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -148,6 +163,20 @@ class GameActivity : AppCompatActivity() {
                 sendMove(lat, lng)
 
                 binding.tvMyPosition.text = "My Position: $lat , $lng"
+
+             //used for markers
+                if (::mMap.isInitialized) {
+                    val latLng = LatLng(lat, lng)
+
+                    if (myMarker == null) {
+                        myMarker = mMap.addMarker(
+                            MarkerOptions().position(latLng).title("You")
+                        )
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
+                    } else {
+                        myMarker?.position = latLng
+                    }
+                }
 
                 checkBodyNearby(lat, lng)
 
@@ -200,7 +229,7 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    // movement fxn
+    // move socket
     private fun sendMove(lat: Double, lng: Double) {
 
         val socket = SocketManager.getSocket() ?: return
@@ -223,7 +252,7 @@ class GameActivity : AppCompatActivity() {
         Log.d("MOVE_SENT", "My position: $lat,$lng")
     }
 
-    // movement listener
+    // player move listener
     private fun listenForPlayerMovement() {
 
         val socket = SocketManager.getSocket() ?: return
@@ -249,13 +278,27 @@ class GameActivity : AppCompatActivity() {
                     binding.tvLastMovement.text =
                         "$username moved to $lat , $lng"
 
+                    //other player markers
+                    if (::mMap.isInitialized) {
+                        val latLng = LatLng(lat, lng)
+
+                        if (playerMarkers.containsKey(userId)) {
+                            playerMarkers[userId]?.position = latLng
+                        } else {
+                            val marker = mMap.addMarker(
+                                MarkerOptions().position(latLng).title(username)
+                            )
+                            marker?.let { playerMarkers[userId] = it }
+                        }
+                    }
+
                     Log.d("PLAYER_MOVED", "$username moved to $lat,$lng")
                 }
             }
         }
     }
 
-    // nearby:targets sockets implementation
+    //target socket
     private fun listenForTargets() {
 
         val socket = SocketManager.getSocket() ?: return
@@ -287,10 +330,7 @@ class GameActivity : AppCompatActivity() {
 
                         currentVictimId = victim.getString("userId")
 
-                        Log.d("TARGETS", "Player nearby: $currentVictimId")
-
                     } else {
-
                         currentVictimId = null
                     }
                 }
@@ -298,7 +338,7 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    // kill_sent sockets
+    // KILL
     private fun sendKill(victimId: String) {
 
         val socket = SocketManager.getSocket() ?: return
@@ -311,11 +351,9 @@ class GameActivity : AppCompatActivity() {
         socket.emit("game:kill", payload)
 
         binding.btnKill.isEnabled = false
-
-        Log.d("KILL_SENT", "Kill sent for victim: $victimId")
     }
 
-    // kill_event listener
+    // Kill event
     private fun listenForKillEvent() {
 
         val socket = SocketManager.getSocket() ?: return
@@ -328,7 +366,6 @@ class GameActivity : AppCompatActivity() {
 
                 val data = args[0] as JSONObject
 
-                val killerId = data.getString("killerId")
                 val victimId = data.getString("victimId")
 
                 val position = data.getJSONObject("position")
@@ -338,23 +375,21 @@ class GameActivity : AppCompatActivity() {
 
                 deadBodies.add(DeadBody(victimId, lat, lng))
 
-                val victimName = playerMap[victimId] ?: "Unknown"
-                val killerName = playerMap[killerId] ?: "Unknown"
-
-                runOnUiThread {
-
-                    binding.tvStatus.text =
-                        "$killerName killed $victimName !!"
-
-                    Log.d("BODY_CREATED", "Body of $victimName at $lat,$lng")
+                // dead body marker
+                if (::mMap.isInitialized) {
+                    mMap.addMarker(
+                        MarkerOptions()
+                            .position(LatLng(lat, lng))
+                            .title("Dead Body")
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                    )
                 }
             }
         }
     }
 
-    // report body socket event
+    // REPORT
     private fun sendReportBody() {
-
         val victimId = reportTargetBody?.victimId ?: return
         val socket = SocketManager.getSocket() ?: return
 
@@ -363,36 +398,10 @@ class GameActivity : AppCompatActivity() {
             put("bodyVictimId", victimId)
         }
 
-        socket.emit("game:report-body", payload, io.socket.client.Ack { ackArgs ->
-
-            if (ackArgs.isNotEmpty() && ackArgs[0] is JSONObject) {
-
-                val ack = ackArgs[0] as JSONObject
-                val ok = ack.optBoolean("ok")
-
-                runOnUiThread {
-
-                    if (ok) {
-
-                        deadBodies.removeIf { it.victimId == victimId }
-
-                        binding.tvStatus.text = "Body Reported!"
-                        binding.btnReport.visibility = View.GONE
-
-                        Log.d("REPORT_BODY", "Report successful")
-
-                    } else {
-
-                        val message = ack.optString("message")
-
-                        Log.d("REPORT_BODY_ERROR", message)
-                    }
-                }
-            }
-        })
+        socket.emit("game:report-body", payload)
     }
 
-    // body_Range
+    // Body range
     private fun checkBodyNearby(myLat: Double, myLng: Double) {
 
         var foundBody: DeadBody? = null
@@ -416,63 +425,26 @@ class GameActivity : AppCompatActivity() {
         }
 
         if (foundBody != null) {
-
             reportTargetBody = foundBody
             binding.btnReport.visibility = View.VISIBLE
-
-            Log.d("BODY_RANGE", "Body in range: ${foundBody.victimId}")
-
         } else {
-
             reportTargetBody = null
             binding.btnReport.visibility = View.GONE
         }
     }
 
-    // get:bodies sockets
+    // GET BODIES
     private fun requestBodies() {
-
         val socket = SocketManager.getSocket() ?: return
 
         val payload = JSONObject().apply {
             put("roomCode", roomCode)
         }
 
-        socket.emit("game:get-bodies", payload, io.socket.client.Ack { ackArgs ->
-
-            if (ackArgs.isNotEmpty() && ackArgs[0] is JSONObject) {
-
-                val data = ackArgs[0] as JSONObject
-                val ok = data.optBoolean("ok")
-
-                if (!ok) {
-                    Log.d("GET_BODIES_ERROR", data.optString("message"))
-                    return@Ack
-                }
-
-                val bodies = data.getJSONArray("bodies")
-
-                deadBodies.clear()
-
-                for (i in 0 until bodies.length()) {
-
-                    val body = bodies.getJSONObject(i)
-
-                    deadBodies.add(
-                        DeadBody(
-                            body.getString("victimId"),
-                            body.getDouble("lat"),
-                            body.getDouble("lng")
-                        )
-                    )
-                }
-
-                Log.d("GET_BODIES", "Bodies restored: ${deadBodies.size}")
-            }
-        })
+        socket.emit("game:get-bodies", payload)
     }
 
-     // meeting:started sockets
+    // MEETING
     private fun listenMeetingStart() {
 
         val socket = SocketManager.getSocket() ?: return
@@ -481,49 +453,28 @@ class GameActivity : AppCompatActivity() {
 
         socket.on("game:meeting-started") { args ->
 
-            if (args.isNotEmpty() && args[0] is JSONObject) {
+            val data = args[0] as JSONObject
 
-                val data = args[0] as JSONObject
+            runOnUiThread {
 
-                val reason = data.optString("reason")
-                val reporterId = data.optString("reporterId")
-                val victimId = data.optString("bodyVictimId")
+                fusedLocationClient.removeLocationUpdates(locationCallback)
 
-                Log.d("MEETING_STARTED", "Meeting triggered: $reason")
+                val intent = Intent(this, MeetingActivity::class.java)
+                intent.putExtra("roomCode", roomCode)
 
-                runOnUiThread {
-
-                    fusedLocationClient.removeLocationUpdates(locationCallback)
-
-                    val intent = Intent(this, MeetingActivity::class.java)
-
-                    intent.putExtra("roomCode", roomCode)
-                    intent.putExtra("reason", reason)
-                    intent.putExtra("reporterId", reporterId)
-                    intent.putExtra("victimId", victimId)
-
-                    startActivity(intent)
-                }
+                startActivity(intent)
             }
         }
     }
 
-
-    //when meeting finishes then android returns to existing Game instance but inside this activity
-    // we stopped location updates when meeting started
-    // so after returning gps,movememt,nearby detection and kill detection may stop
-    //hence we used this onResume
-
     override fun onResume(){
         super.onResume()
         if(::fusedLocationClient.isInitialized){
-            Log.d("GAME_RESUME","restarting location updates")
             startLocationUpdates()
         }
     }
 
     override fun onDestroy() {
-
         super.onDestroy()
 
         val socket = SocketManager.getSocket()
@@ -532,9 +483,24 @@ class GameActivity : AppCompatActivity() {
         socket?.off("game:nearby-targets")
         socket?.off("game:kill-event")
         socket?.off("game:meeting-started")
+
         taskHandler.cleanup()
         lifeHandler.cleanup()
 
         fusedLocationClient.removeLocationUpdates(locationCallback)
+    }
+
+    // ✅ PERMISSION FIX
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == LOCATION_PERMISSION_REQUEST &&
+            grantResults.isNotEmpty() &&
+            grantResults[0] == PackageManager.PERMISSION_GRANTED
+        ) {
+            startLocationUpdates()
+        }
     }
 }
