@@ -2,6 +2,7 @@ package com.example.uploadingscreen
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +19,6 @@ class LobbyActivity : AppCompatActivity() {
     private lateinit var viewModel: RoomViewModel
     private var authToken: String? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -27,11 +27,14 @@ class LobbyActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[RoomViewModel::class.java]
 
-        authToken = getSharedPreferences("auth", MODE_PRIVATE)
-            .getString("token", null)
+        authToken = intent.getStringExtra("token")
 
-        if (authToken == null) {
+        Log.d("TOKEN_DEBUG", "Token: $authToken")
+
+        if (authToken.isNullOrEmpty()) {
             toast("Authentication token missing")
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
             return
         }
 
@@ -73,6 +76,7 @@ class LobbyActivity : AppCompatActivity() {
                     val roomCode = resource.data?.code
 
                     roomCode?.let {
+                        SocketManager.setCurrentRoom(it)
                         openWaitingRoom(it, true, null)
                     }
                 }
@@ -99,6 +103,7 @@ class LobbyActivity : AppCompatActivity() {
                     val players = resource.data?.players
 
                     roomCode?.let {
+                        SocketManager.setCurrentRoom(it)
                         openWaitingRoom(it, false, players)
                     }
                 }
@@ -132,5 +137,10 @@ class LobbyActivity : AppCompatActivity() {
 
     private fun toast(msg: String?) {
         Toast.makeText(this, msg ?: "Something went wrong", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+//        SocketManager.clrRoom()
     }
 }

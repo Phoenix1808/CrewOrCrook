@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UploadingScreen">
         <activity
+            android:name=".GameOverActivity"
+            android:exported="false" />
+        <activity
             android:name=".MeetingActivity"
             android:exported="false" />
 
